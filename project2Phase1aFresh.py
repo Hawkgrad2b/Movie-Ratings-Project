@@ -20,7 +20,11 @@ def getZip(line):
     pieces = (line.split("|"))
     zipString = pieces[4].strip()
     return zipString
-
+    
+##############################################################################
+# Reads information about users from the file u.user. This information is stored as a list dictionaries and returned.
+# Each dictionary has keys "age", "gender", "occupation", and "zip". The dictionary for user i is stored in slot i-1.
+##############################################################################
 def createUserList():
     f = open("u.user.txt")
     userList = []
@@ -65,7 +69,12 @@ def getGenre(line):
         
         newGenreList.append(part)
     return newGenreList
-
+    
+##############################################################################
+# Reads information about users from the file u.item. This information is stored as a list dictionaries and returned.
+# Each dictionary has keys "title", "release date", "video release date", "IMDB url", and "genre". The dictionary for movie i
+# is stored in slot i-1.
+##############################################################################
 def createMovieList():
     f = open("u.item.txt", encoding="windows-1252")
     movieList = []
@@ -95,7 +104,11 @@ def getMovie(line):
 def getRating(line):
     pieces = line.split("\t")
     return int(pieces[2])
-
+    
+##############################################################################
+# Read ratings from a file u.data. Each rating line consisting of a user, movie, and rating are turned into a length-3 int tuple.
+# A list of 100,000 such ratings is returned. The timestamps that appear in each rating are ignored. 
+##############################################################################
 def readRatings():
     f = open("u.data.txt")
     
@@ -109,7 +122,12 @@ def readRatings():
         
     return tuplesList
 
-
+##############################################################################
+# This function is given a bunch of ratings in the form of a list of (user, movie, rating)-tuple.
+# It then creates two data structures, one from the point of view of users and one from the point of view of movies. 
+# In addition, the function takes the number of users and movies as parameters and uses these to appopriately initialize
+# the rating lists.
+##############################################################################
 def createRatingsDataStructure(numUsers, numItems, ratingTuples):
     
     rLu=[]
@@ -136,8 +154,13 @@ def createRatingsDataStructure(numUsers, numItems, ratingTuples):
         rLm.append(tempDict)
         
     return rLu, rLm
-
     
+##############################################################################
+# This function is given a bunch of ratings in the form of a list of (user, movie, rating)-tuple.
+# It then creates two data structures, one from the point of view of users and one from the point of view of movies. 
+# In addition, the function takes the number of users and movies as parameters and uses these to appopriately initialize
+# the rating lists.
+##############################################################################   
 def createGenreList():
     f = open("u.genre.txt")
     genreList = []
@@ -149,8 +172,17 @@ def createGenreList():
         
     return genreList
 
-
-
+##############################################################################
+#
+# This function takes demographic information given by gender and ageRange. It
+# identifies the subpopulation of users that have the given gender and fall within
+# the given ageRange. For each movie genre, the function computes the number N of ratings
+# in the range ratingsRange provided by this subpopulation for movies in that genre. 
+# It then returns the fraction, which is N dividied by the total number
+# of ratings provided by all the users in this subpopulation. It returns this 
+# fraction for the 19 genres as a length-19 list of floating points.
+#
+##############################################################################
 def demGenreRatingFractions(userList, movieList, rLu, gender, ageRange, ratingRange):
 
     genreList= createGenreList()
